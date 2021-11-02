@@ -1,0 +1,168 @@
+{
+  "openapi": "3.0.0",
+  "info":{
+    "title":"API de usuários",
+    "description":"API de cadastro de usuários",
+    "version":"1.0.0",
+    "contact":{
+      "email":"marcelocamacho.ufpa@gmail.com"
+    }
+  },
+    "paths":{
+      "/users":{
+        "post":{
+          "tags":["User"],
+          "summary":"Criar um novo usuário",
+          "description":"Criação de um usuário passando nome e email",
+          "requestBody":{
+            "content":{
+              "application/json":{
+                "schema":{
+                  "type":"object",
+                  "properties":{
+                    "name":{
+                      "type": "string"
+                    },
+                    "email":{
+                      "type": "string"
+                    }
+                  },
+                  "example":{
+                    "name": "Usuário de Teste",
+                    "email": "teste@teste.com"
+                  }
+                }
+              }
+            }
+          },
+          "responses":{
+            "201":{
+              "description": "Created",
+              "content":{
+                "application/json":{
+                  "type":"object"
+                } 
+              }
+            },
+            "400":{
+              "description":"User already exists",
+              "content":{
+                "application/json":{
+                  "type":"object"
+                } 
+              }
+            }
+          }
+        },
+        "get":{
+          "tags":["Users"],
+          "summary": "Lista todos os usuários",
+          "description":"Lista todos os usuáiros, caso o usuário requisitante possua permissão",
+
+          "parameters":[
+            {
+              "name":"user_id",
+              "in":"header",
+              "schema":{
+                "type": "string",
+                "format":"uuid"
+              }
+            }
+          ],
+          "responses":{
+            "200":{
+              "description":"Listagem bem sucedida!",
+              "content":{
+                "application/json":{
+                  "type":"object"
+                } 
+              }
+              
+            },
+            "400":{
+              "description":"Usuário já existe!",
+              "content":{
+                "application/json":{
+                  "type":"object"
+                } 
+              } 
+            }
+          }
+        }
+      },
+      "/users/{user_id}":{
+        "get":{
+          "tags":["User ID"],
+          "summary": "Lista um único usuário",
+          "description":"Lista um único usuário passando na path o uuid correspondente",
+
+          "parameters":[
+            {
+              "name":"user_id",
+              "in":"path",
+              "schema":{
+                "type": "string",
+                "format":"uuid"
+              }
+            }
+          ],
+          "responses":{
+            "200":{
+              "description":"Listagem bem sucedida!",
+              "content":{
+                "application/json":{
+                  "type":"object"
+                } 
+              }
+              
+            },
+            "404":{
+              "description":"Usuário já existe!",
+              "content":{
+                "application/json":{
+                  "type":"object"
+                } 
+              } 
+            }
+          }
+        }
+      },
+      "/users/{user_id}/admin":{
+        "patch":{
+          "tags":["User admin"],
+          "summary": "Torna o usuário administrador",
+          "description":"Torna um usuário administrador, passando o uuid correspondente pela Path",
+
+          "parameters":[
+            {
+              "name":"user_id",
+              "in":"path",
+              "schema":{
+                "type": "string",
+                "format":"uuid"
+              }
+            }
+          ],
+          "responses":{
+            "200":{
+              "description":"Listagem bem sucedida!",
+              "content":{
+                "application/json":{
+                  "type":"object"
+                } 
+              }
+              
+            },
+            "404":{
+              "description":"Usuário já existe!",
+              "content":{
+                "application/json":{
+                  "type":"object"
+                } 
+              } 
+            }
+          }
+        }
+      }
+    }
+}
